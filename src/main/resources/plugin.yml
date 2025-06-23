@@ -1,0 +1,10 @@
+name: WelcomeTitles
+main: com.xiluiis.WelcomeTitles.WelcomeTitles
+author: xShadowsystem
+description: A simple Minecraft plugin that displays a customizable welcome title and chat message to players when they join the server.
+version: 1.0.0-beta
+api-version: 1.20
+commands:
+  welcometitles:
+    description: test
+    usage: test
