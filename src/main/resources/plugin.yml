@@ -9,6 +9,15 @@ commands:
     description: test
     usage: test
 permissions:
+  welcometitles.default:
+    description: Messages for default players.
+    default: true
   welcometitles.admin:
-    description: Allows the player avoid global join message
+    description: Messages for admin players.
+    default: false
+  welcometitles.mod:
+    description: Messages for mod players.
+    default: false
+  welcometitles.vip:
+    description: Messages for vip players.
     default: false
