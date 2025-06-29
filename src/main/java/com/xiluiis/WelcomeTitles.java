@@ -1,4 +1,5 @@
 package com.xiluiis;
+import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
@@ -22,21 +23,36 @@ public class WelcomeTitles extends JavaPlugin implements Listener
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event){
         String playerNameString = event.getPlayer().getName();
-        String message = (event.getPlayer().isOp() || event.getPlayer().hasPermission("welcometitles.admin")) ?
-        getConfig().getString("admin-global-join-message").replace("%player%", playerNameString):
-        getConfig().getString("player-global-join-message").replace("%player%", playerNameString);
-        event.setJoinMessage(message);
-        event.getPlayer().sendMessage(getConfig().getString("player-private-join-message").replace("%player%", playerNameString));
-        
+        Player player = event.getPlayer();
+        event.setJoinMessage(createMessage(playerNameString, getPlayerRank(player) + "-global-join-message"));
+        player.sendMessage(createMessage(playerNameString, getPlayerRank(player) + "-private-join-message"));
     }
 
     @EventHandler
     public void onPlayerLeft(PlayerQuitEvent event){
         String playerNameString = event.getPlayer().getName();
-        String message = (event.getPlayer().isOp() || event.getPlayer().hasPermission("welcometitles.admin")) ?
-        getConfig().getString("admin-global-quit-message").replace("%player%", playerNameString):
-        getConfig().getString("player-global-quit-message").replace("%player%", playerNameString) + playerNameString;
-        event.setQuitMessage(message);
+        Player player = event.getPlayer();
+        event.setQuitMessage(createMessage(playerNameString, getPlayerRank(player) + "-global-quit-message"));
+    }
+
+    public String createMessage(String playerNameString, String pathString){
+        String message = getConfig().getString(pathString).replace("%player%", playerNameString);
+        return message;
+    }
+
+    public String getPlayerRank(Player player){
+        if(player.hasPermission("welcometitles.vip")){
+            return "vip";
+        }
+        else if (player.isOp() || player.hasPermission("welcometitles.admin")){
+            return "admin";
+        }else if(player.hasPermission("welcometitles.mod")){
+            return "mod";
+        }
+        else if(player.hasPermission("welcometitles.default")){
+            return "default";
+        }
+        return "default";
     }
 
 }
