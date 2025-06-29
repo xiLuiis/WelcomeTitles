@@ -1,0 +1,5 @@
+player-private-join-message: "Hi %player%, Welcome back!"
+admin-global-join-message: ""
+player-global-join-message: "[+] %player%"
+admin-global-quit-message: ""
+player-global-quit-message: "[-] %player%"
