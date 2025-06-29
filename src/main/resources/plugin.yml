@@ -8,3 +8,7 @@ commands:
   welcometitles:
     description: test
     usage: test
+permissions:
+  welcometitles.admin:
+    description: Allows the player avoid global join message
+    default: false
