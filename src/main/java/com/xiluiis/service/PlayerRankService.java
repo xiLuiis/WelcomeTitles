@@ -1,8 +1,10 @@
 package com.xiluiis.service;
 
+import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 public class PlayerRankService implements RankService {
+
     public String getPlayerRank(Player player){
         if(player.hasPermission("welcometitles.vip")){
             return "vip";
@@ -17,5 +19,8 @@ public class PlayerRankService implements RankService {
         }
         return "default";
     }
-    
+ 
+    public boolean isAllowedToSet(CommandSender sender){
+        return sender.hasPermission("welcometitles.vip") ||  sender.hasPermission("welcometitles.admin") || sender.isOp();
+    }
 }
