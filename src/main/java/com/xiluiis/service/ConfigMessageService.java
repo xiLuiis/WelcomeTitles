@@ -12,4 +12,9 @@ public class ConfigMessageService implements MessageService{
         String message = plugin.getConfig().getString(pathString).replace("%player%", playerNameString);
         return message;
     }
+
+    public void changeMessage(String playerNameString, String pathString, String newText){
+        plugin.getConfig().set(pathString,newText);
+        plugin.saveConfig();
+    }
 }

@@ -6,6 +6,7 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.command.*;
 
 import com.xiluiis.service.ConfigMessageService;
 import com.xiluiis.service.PlayerRankService;
@@ -13,7 +14,7 @@ import com.xiluiis.service.PlayerRankService;
 public class WelcomeTitles extends JavaPlugin implements Listener
 {
     private ConfigMessageService messageService;
-    private PlayerRankService PlayerRankService;
+    private PlayerRankService playerRankService;
 
     @Override
     public void onEnable() {
@@ -21,7 +22,7 @@ public class WelcomeTitles extends JavaPlugin implements Listener
         getServer().getPluginManager().registerEvents(this, this);
         saveDefaultConfig();
         messageService = new ConfigMessageService(this);
-        PlayerRankService = new PlayerRankService();
+        playerRankService = new PlayerRankService();
     }
 
     @Override
@@ -33,16 +34,46 @@ public class WelcomeTitles extends JavaPlugin implements Listener
     public void onPlayerJoin(PlayerJoinEvent event){
         String playerNameString = event.getPlayer().getName();
         Player player = event.getPlayer();
-        event.setJoinMessage(messageService.createMessage(playerNameString, PlayerRankService.getPlayerRank(player) + "-global-join-message"));
-        player.sendMessage(messageService.createMessage(playerNameString, PlayerRankService.getPlayerRank(player) + "-private-join-message"));
+        event.setJoinMessage(messageService.createMessage(playerNameString, playerRankService.getPlayerRank(player) + "-global-join-message"));
+        player.sendMessage(messageService.createMessage(playerNameString, playerRankService.getPlayerRank(player) + "-private-join-message"));
     }
 
     @EventHandler
     public void onPlayerLeft(PlayerQuitEvent event){
         String playerNameString = event.getPlayer().getName();
         Player player = event.getPlayer();
-        event.setQuitMessage(messageService.createMessage(playerNameString, PlayerRankService.getPlayerRank(player) + "-global-quit-message"));
+        event.setQuitMessage(messageService.createMessage(playerNameString, playerRankService.getPlayerRank(player) + "-global-quit-message"));
     }
+    
+    @Override
+    public boolean onCommand(CommandSender sender, Command command, String label, String[] args){
+        if (!(sender instanceof Player)) {
+            sender.sendMessage("Only players can use this command.");
+            return true;
+        }
 
+        if(args.length==0 || (args.length >= 1 && args[0].equalsIgnoreCase("help"))){
+             if(playerRankService.isAllowedToSet(sender)){
+                sender.sendMessage("Executing help premium options");
+             }
+                sender.sendMessage("Executing help options");
+                return true;
+            }
+
+        if(args.length >= 1){
+            if(args[0].equalsIgnoreCase("set")){
+                if(playerRankService.isAllowedToSet(sender)){
+                    sender.sendMessage("Executing set command");
+                    messageService.changeMessage(sender.getName(), "admin-global-join-message", "Test");
+                    return true;
+                }else{
+                    sender.sendMessage("You don't have permissions to execute this command");
+                    return true;
+                }
+            }
+        }
+        sender.sendMessage("Unknown command. Use /welcometitles help to see possible commands");
+        return true;
+    }
 
 }

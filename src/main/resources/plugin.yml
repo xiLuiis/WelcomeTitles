@@ -6,8 +6,8 @@ version: 1.0.0-beta
 api-version: 1.20
 commands:
   welcometitles:
-    description: test
-    usage: test
+    description: Command to handle WelcomeTitles parameters
+    usage: /welcometitles <help|set|get> [...]
 permissions:
   welcometitles.default:
     description: Messages for default players.
