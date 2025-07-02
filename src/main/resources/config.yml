@@ -10,3 +10,15 @@ default-global-quit-message: "[-] %player%"
 admin-global-quit-message: ""
 mod-global-quit-message: "[-] %player%"
 vip-global-quit-message: "[-] %player%"
+
+sub-command-permissions:
+  set:
+    admin: true
+    vip: true
+    mod: false
+    default: false
+  help:
+    admin: true
+    vip: true
+    mod: true
+    default: true

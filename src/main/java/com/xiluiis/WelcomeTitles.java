@@ -22,7 +22,7 @@ public class WelcomeTitles extends JavaPlugin implements Listener
         getServer().getPluginManager().registerEvents(this, this);
         saveDefaultConfig();
         messageService = new ConfigMessageService(this);
-        playerRankService = new PlayerRankService();
+        playerRankService = new PlayerRankService(this);
     }
 
     @Override
@@ -53,13 +53,14 @@ public class WelcomeTitles extends JavaPlugin implements Listener
         }
 
         if(args.length==0 || (args.length >= 1 && args[0].equalsIgnoreCase("help"))){
-             if(playerRankService.isAllowedToSet(sender)){
-                sender.sendMessage("Executing help premium options");
-             }
-                sender.sendMessage("Executing help options");
-                return true;
+            if(playerRankService.isAllowedToHelp(sender)){
+                if(playerRankService.isAllowedToSet(sender)){
+                    sender.sendMessage("Executing help premium options");
+                }
+                    sender.sendMessage("Executing help options");
+                    return true;
+                }
             }
-
         if(args.length >= 1){
             if(args[0].equalsIgnoreCase("set")){
                 if(playerRankService.isAllowedToSet(sender)){
