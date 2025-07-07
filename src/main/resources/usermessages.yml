@@ -1,0 +1,6 @@
+# usermessages.yml
+# Here you can store custom join/quit messages per user.
+# Example:
+# <uuid>:
+#   join-message: "Welcome back, %player%!"
+#   quit-message: "Goodbye, %player%!"
